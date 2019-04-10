@@ -1,0 +1,31 @@
+#Name of the application
+spring:
+  application:
+    name: ZuulService
+
+#Eureka server url for registering
+#This is eureka client
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://eurekasz:1111/eureka/
+     
+#register url to server    
+
+instance:
+  hostname: localhost
+  
+server:
+  port: 8500
+  
+zuul:
+   routes:
+    feedbacksys:
+      path: /microservice1/**
+      service-id: microservice1
+
+     
+     
+      

@@ -1,0 +1,64 @@
+package com.hacker;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import com.hacker.mail.Admin;
+import com.hacker.mail.AdminController;
+import com.hacker.mail.AdminRepository;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+public class TestAdminController {
+	@Autowired
+	private MockMvc mvc;
+	@Autowired
+	private AdminRepository adminRepository;
+	private AdminController adminController;
+	 @Before
+	    public void init(){
+	        MockitoAnnotations.initMocks(this);
+	        mvc = MockMvcBuilders
+	                .standaloneSetup(adminController)
+	                .build();
+	    }
+	 
+	@Test
+	public void getAllEmployeesAPI() throws Exception
+	{
+	  mvc.perform( MockMvcRequestBuilders
+	      .get("/getEvents")
+	       .andExpect(status().isOk())
+	      .andExpect(MockMvcResultMatchers.jsonPath("$.employees").exists())
+	      .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].employeeId").isNotEmpty());
+	}
+	
+	@Test
+	public void test_create_user_success() throws Exception {
+		Admin admin = new Admin();
+		admin.setEmpID(121212);
+		admin.setName("Adams");
+		admin.setPhoneNum(90909090);
+		admin.setRole("Admin");
+		admin.setPwd("121212@cts");
+	    when(adminRepository.existsById(121212)).thenReturn(false);
+	    doNothing().when(userService).create(user);
+	    mockMvc.perform(
+	            post("/createRole")
+	                    .contentType(MediaType.APPLICATION_JSON)
+	                    .content(asJsonString(user)))
+	            .andExpect(status().isCreated())
+	            .andExpect(header().string("location", containsString("http://localhost/users/")));
+	    verify(userService, times(1)).exists(user);
+	    verify(userService, times(1)).create(user);
+	    verifyNoMoreInteractions(userService);
+	}
+
+}

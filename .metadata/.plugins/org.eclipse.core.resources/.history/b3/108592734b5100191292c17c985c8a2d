@@ -1,0 +1,36 @@
+server.port=9090
+
+spring.mail.properties.mail.smtp.connectiontimeout=100000
+spring.mail.properties.mail.smtp.timeout=100000
+spring.mail.properties.mail.smtp.writetimeout=100000
+
+spring.mail.default-encoding=UTF-8
+#spring.mail.host=smtp.gmail.com
+spring.mail.host=smtp.googlemail.com
+spring.mail.username=priya.raju1003@gmail.com
+spring.mail.password=follett@123
+spring.mail.port=587
+spring.mail.protocol=smtp
+spring.mail.test-connection=false
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+server.connection-timeout=10000
+server.address=0.0.0.0
+#DB details
+spring.jpa.hibernate.ddl-auto=update
+#spring.datasource.url=jdbc:mysql://localhost:3306/feedback_system
+spring.datasource.url=jdbc:mysql://mysql-standalone:3306/outreach
+spring.datasource.username=root
+spring.datasource.password=pass@word1
+### Spring properties
+# Service registers under this name
+spring.application.name= microservice1
+
+# Discovery Server Access
+eureka.client.register-with-eureka= true
+eureka.client.fetch-registry= true
+eureka.client.serviceUrl.defaultZone= http://172.18.2.50:1111/eureka/
+#eureka.client.serviceUrl.defaultZone= http://localhost:1111/eureka/
+eureka.instance.hostname= 172.24.0.3
+# Disable Spring Boot's "Whitelabel" default error page, so we can use our own
+error.whitelabel.enabled= false

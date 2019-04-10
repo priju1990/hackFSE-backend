@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="org.springframework.boot.autoconfigure.SpringBootApplication"/>
+<fullyQualifiedTypeName name="org.springframework.boot.SpringApplication"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RequestMapping"/>
+<fullyQualifiedTypeName name="java.util.HashMap"/>
+<fullyQualifiedTypeName name="javax.persistence.OneToOne"/>
+<fullyQualifiedTypeName name="java.util.Set"/>
+<fullyQualifiedTypeName name="org.springframework.web.bind.annotation.RestController"/>
+<fullyQualifiedTypeName name="org.springframework.stereotype.Controller"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Configuration"/>
+<fullyQualifiedTypeName name="org.springframework.batch.core.configuration.annotation.EnableBatchProcessing"/>
+<fullyQualifiedTypeName name="org.springframework.context.annotation.Bean"/>
+<fullyQualifiedTypeName name="org.springframework.security.core.Authentication"/>
+<fullyQualifiedTypeName name="org.springframework.security.crypto.password.PasswordEncoder"/>
+<fullyQualifiedTypeName name="java.awt.List"/>
+<fullyQualifiedTypeName name="javax.persistence.EntityManager"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="org.springframework.security.web.authentication.AuthenticationFailureHandler"/>
+<fullyQualifiedTypeName name="javax.naming.AuthenticationException"/>
+<fullyQualifiedTypeName name="org.springframework.security.web.util.matcher.AntPathRequestMatcher"/>
+<fullyQualifiedTypeName name="com.hacker.mail.repository.AdminRepository"/>
+<fullyQualifiedTypeName name="com.hacker.mail.repository.EventRepository"/>
+<fullyQualifiedTypeName name="com.hacker.mail.dao.Admin"/>
+<fullyQualifiedTypeName name="com.hacker.mail.dao.Event"/>
+<fullyQualifiedTypeName name="com.hacker.mail.dao.Feedback"/>
+<fullyQualifiedTypeName name="com.hacker.mail.dao.Email"/>
+<fullyQualifiedTypeName name="com.hacker.mail.handlers.SuccessHandler"/>
+<fullyQualifiedTypeName name="com.hacker.mail.handlers.FailureHandler"/>
+<fullyQualifiedTypeName name="java.net.URI"/>
+<fullyQualifiedTypeName name="java.net.URL"/>
+<fullyQualifiedTypeName name="java.net.MalformedURLException"/>
+</qualifiedTypeNameHistroy>

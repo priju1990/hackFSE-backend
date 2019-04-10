@@ -1,0 +1,113 @@
+package com.hacker.mail;
+
+
+
+import javax.sql.DataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	SuccessHandler successHandler;
+	@Autowired
+	FailureHandler failureHandler;
+	@Autowired
+	DataSource datasource;
+	@ConfigurationProperties(prefix ="spring.datasource")
+	public DataSource ds() {
+
+		return DataSourceBuilder.create().build();
+
+	}
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration config = new CorsConfiguration();
+		config.setAllowCredentials(true);
+		config.addAllowedOrigin("*");
+		config.addAllowedHeader("*");
+		config.addAllowedMethod("OPTIONS");
+		config.addAllowedMethod("HEAD");
+		config.addAllowedMethod("GET");
+		config.addAllowedMethod("PUT");
+		config.addAllowedMethod("POST");
+	
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", config);
+		return source;     
+	}
+
+	
+
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+	logger.info("************* Entry configure ************* ");
+		http
+		.cors()
+		.and()
+		.csrf().disable()
+		.authorizeRequests().antMatchers("/createRole").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/loadRoles").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/createEvent/**").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/loadEvents").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/changePwd").hasAnyAuthority("*").and()
+		.authorizeRequests().antMatchers("/persistFeedback").permitAll().and()
+		.authorizeRequests().antMatchers("/getFeedbackByCountry/**").hasAnyAuthority("PMO","Admin").and()
+		.authorizeRequests().antMatchers("/getFeedbackByBU/**").hasAnyAuthority("PMO","Admin").and()
+		.authorizeRequests().antMatchers("/getFeedbackByCity/**").hasAnyAuthority("PMO","Admin").and()
+		.authorizeRequests().antMatchers("/getFeedbackByEvent/**").hasAuthority("POC").and()
+		.authorizeRequests().antMatchers("/getFeedbackByMonth").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/getDefaulters").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/sendReport").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/downloadFeedbackReport").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/sendReport").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/sendReport").hasAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/getFeedbackDetailsForEvent").hasAuthority("Admin").and()
+		.formLogin().loginProcessingUrl("/login").successHandler(successHandler).failureHandler(failureHandler)
+		.and().logout().logoutUrl("/logout").invalidateHttpSession(true)
+		.clearAuthentication(true).deleteCookies("SESSION");
+
+	}
+
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth)
+			throws Exception
+	{
+logger.info("************* Entry configureGlobal ************* ");
+	auth.jdbcAuthentication().dataSource(datasource).authoritiesByUsernameQuery("SELECT empID, role FROM admin WHERE empID=?")
+		.usersByUsernameQuery("SELECT empID, pwd,1 FROM admin WHERE empID=?");
+		logger.info("************* Exit configureGlobal ************* ");
+	}
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+
+		return new MyPasswordEncoder();
+
+	}
+
+
+
+
+
+
+
+}

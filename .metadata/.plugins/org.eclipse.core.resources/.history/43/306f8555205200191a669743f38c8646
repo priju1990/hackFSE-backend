@@ -1,0 +1,97 @@
+package com.hacker;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hacker.mail.Admin;
+import com.hacker.mail.AdminController;
+import com.hacker.mail.AdminRepository;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+public class TestAdminController {
+	@Autowired
+	private MockMvc mvc;
+	@Autowired
+	private AdminRepository adminRepository;
+	private AdminController adminController;
+	 @Before
+	    public void init(){
+	        MockitoAnnotations.initMocks(this);
+	        mvc = MockMvcBuilders
+	                .standaloneSetup(adminController)
+	                .build();
+	    }
+	 
+	@Test
+	public void getAllEmployeesAPI() throws Exception
+	{
+	  mvc.perform( MockMvcRequestBuilders
+	      .get("/getEvents")
+	       .andExpect(status().isOk())
+	      .andExpect(MockMvcResultMatchers.jsonPath("$.employees").exists())
+	      .andExpect(MockMvcResultMatchers.jsonPath("$.employees[*].employeeId").isNotEmpty());
+	}
+	
+	@Test
+	public void test_create_user_success() throws Exception {
+		Admin admin = new Admin();
+		admin.setEmpID(121212);
+		admin.setName("Adams");
+		admin.setPhoneNum(90909090);
+		admin.setRole("Admin");
+		admin.setPwd("121212@cts");
+	    when(adminRepository.existsById(121212)).thenReturn(false);
+	   
+	    mvc.perform(
+	            post("/createRole")
+	                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+	                    .content(asJsonString(admin)))
+	            .andExpect(status().isCreated());
+	            
+	    verify(adminRepository, times(1)).existsById(121212);
+	  
+	}
+	  @Test
+	    public void test_create_user_fail_409_conflict() throws Exception {
+		  Admin admin = new Admin();
+			admin.setEmpID(123456);
+			admin.setName("Adams");
+			admin.setPhoneNum(90909090);
+			admin.setRole("Admin");
+			admin.setPwd("121212@cts");
+	        when(adminRepository.existsById(123456)).thenReturn(true);
+
+	        mvc.perform(
+	                post("/createRole")
+	                        .contentType(MediaType.APPLICATION_JSON)
+	                        .content(asJsonString(admin)))
+	                .andExpect(status().isConflict());
+
+	        verify(adminRepository, times(1)).existsById(123456);
+	        verifyNoMoreInteractions(adminRepository);
+	    }
+	  /*
+     * converts a Java object into JSON representation
+     */
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}

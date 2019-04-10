@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=Mailer/C:\/Users\/Admin\/.m2\/repository\/org\/springframework\/security\/spring-security-web\/5.1.3.RELEASE\/spring-security-web-5.1.3.RELEASE.jar&lt;org.springframework.security.web.authentication(UsernamePasswordAuthenticationFilter.class[UsernamePasswordAuthenticationFilter" modifiers="33" timestamp="1553533940879"/>
+<typeInfo handle="=Mailer/C:\/Users\/Admin\/.m2\/repository\/org\/springframework\/security\/spring-security-core\/5.1.3.RELEASE\/spring-security-core-5.1.3.RELEASE.jar&lt;org.springframework.security.provisioning(JdbcUserDetailsManager.class[JdbcUserDetailsManager" modifiers="33" timestamp="1553276474546"/>
+<typeInfo handle="=Mailer/C:\/Users\/Admin\/.m2\/repository\/org\/springframework\/security\/spring-security-core\/5.1.3.RELEASE\/spring-security-core-5.1.3.RELEASE.jar&lt;org.springframework.security.authentication.dao(DaoAuthenticationProvider.class[DaoAuthenticationProvider" modifiers="33" timestamp="1553276474546"/>
+</typeInfoHistroy>

@@ -1,0 +1,16 @@
+zuul.routes.feedbacksys.path=/microservice1/**
+zuul.routes.feedbacksys.service-id=microservice1
+#zuul.routes.feedbacksys.url: http://localhost:9090/
+#zuul.routes.feedbacksys.stripPrefix: false
+eureka.client.serviceUrl.defaultZone=http://172.24.0.3:1111/eureka
+#eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka
+server.port=8500
+spring.application.name=zuulgateway
+#Eureka server url for registering
+#This is eureka client
+eureka.client.register-with-eureka: true
+   eureka.client.fetch-registry: true
+    #eureka.client.serviceUrl.default-zone: http://172.24.0.4:9090/eureka/
+#register url to server    
+
+eureka.instance.hostname=172.24.0.3

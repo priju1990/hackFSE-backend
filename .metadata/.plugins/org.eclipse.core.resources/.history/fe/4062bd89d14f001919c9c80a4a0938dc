@@ -1,0 +1,5 @@
+zuul.routes.feedbacksys.path=/microservice1/**
+zuul.routes.feedbacksys.serviceId=microservice1
+eureka.client.serviceUrl.defaultZone=http://localhost:1111/eureka
+server.port=8500
+spring.application.name: zuulgateway

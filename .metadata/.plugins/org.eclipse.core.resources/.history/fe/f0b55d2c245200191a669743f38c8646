@@ -1,0 +1,75 @@
+package com.hacker;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.MediaType;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hacker.mail.Admin;
+import com.hacker.mail.AdminController;
+import com.hacker.mail.AdminRepository;
+import com.hacker.mail.Feedback;
+import com.hacker.mail.FeedbackController;
+import com.hacker.mail.FeedbackRepository;
+
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+public class TestFeedbackController {
+	@Autowired
+	private MockMvc mvc;
+	@Mock
+	private FeedbackRepository feedbackRepository;
+	@InjectMocks
+	private FeedbackController feedbackController;
+	 @Before
+	    public void init(){
+	        MockitoAnnotations.initMocks(this);
+	        mvc = MockMvcBuilders
+	                .standaloneSetup(feedbackController)
+	                .build();
+	    }
+	 
+
+	
+	@Test
+	public void test_get_feedback_by_city_success() throws Exception {
+		Feedback feed = new Feedback();
+	    feed.setEmpID(123456);
+	    feed.setRating(5);
+	    feed.setBusinessUnit("Projects");
+	    feed.setEventid("E123");
+	    feedbackRepository.save(feed);
+	    mvc.perform(
+	            post("/getFeedbackByEvent/{eventID}", "E123")
+	            
+	                    .content(asJsonString(feed)))
+	            .andExpect(status().isOk());
+	            
+	    verify(feedbackRepository, times(1)).existsById(123456);
+	  
+	}
+	
+	  /*
+     * converts a Java object into JSON representation
+     */
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+}
